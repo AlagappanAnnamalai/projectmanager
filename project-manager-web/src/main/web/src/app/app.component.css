@@ -1,0 +1,24 @@
+h2 {
+  color:black;
+  text-align: center;
+  border-style: double;
+
+}
+a {
+  color: black;
+}
+
+* {
+  font-family: "Century Gothic";
+  font-style: italic;
+}
+
+.active
+{
+  background-color: grey;
+}
+#addTaskDiv,#viewTaskDiv, #addUserDiv, #addProjectDiv {
+  border-style: double;
+  border-color: black;
+  text-align: center;
+}
