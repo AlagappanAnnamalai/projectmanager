@@ -6,13 +6,16 @@ h2 {
 }
 a {
   color: black;
+  display: inline-block;
+  width:100%;
+  height:100%;
+  text-decoration: none;
 }
 
 * {
-  font-family: "Century Gothic";
+  font-family: "Trebuchet MS";
   font-style: italic;
 }
-
 .active
 {
   background-color: grey;
