@@ -1,0 +1,67 @@
+pipeline {
+    agent any
+    tools { 
+        maven 'Maven'
+        jdk 'JDK8'
+    }
+    triggers {
+        pollSCM('H/5 * * * *')
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
+    }
+   
+   stages
+	{
+	   stage('Checkout from SCM GIT') {
+		   steps {
+			     checkout([$class: 'GitSCM', branches: [[name: '*/master']], 
+				      doGenerateSubmoduleConfigurations: false, extensions: [], 
+				      submoduleCfg: [], 
+				      userRemoteConfigs: [[url: 'https://github.com/AlagappanAnnamalai/projectmanager.git']]])
+			     echo 'Git checkout succeeded'
+		   }
+	   }
+
+	   stage('Build & Analyse') {
+		   steps {
+			bat "mvn clean install sonar:sonar"
+		   }
+	   }
+	   stage('Publish Junit Report & Archive') {
+		   steps {
+				archiveArtifacts artifacts: 'project-manager-service/target/*.jar', fingerprint: true
+				junit '**/TEST-*.xml'
+			        step([$class: 'JacocoPublisher', 
+				      execPattern: '**/*.exec',
+				      classPattern: '**/classes',
+				      sourcePattern: '**/src/main/java',
+				      exclusionPattern: '**/src/test*'
+				])
+		   }
+		}
+	   stage('Build Docker Image') {
+		   steps {
+			bat 'docker system prune --all --force --volumes'
+			bat 'docker build -f Dockerfile -t alagappanannamalai/project-manager-app:latest .'
+		   }
+	   }
+	  stage('Push Docker Image') {
+	          steps {  
+		       withCredentials([usernamePassword(credentialsId: 'Docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+			   bat 'docker login -u "%USERNAME%"  -p "%PASSWORD%"'
+		       }
+		bat 'docker push alagappanannamalai/project-manager-app:latest'
+	        }
+   	  }
+	  stage('Start Application')
+		{
+			steps {
+				bat 'docker-compose -f docker-compose.yml down'
+				bat 'docker-compose -f docker-compose.yml up -d'
+			}
+		}
+		
+	}
+}
