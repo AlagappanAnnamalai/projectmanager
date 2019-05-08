@@ -3,7 +3,6 @@ package com.iiht.projectmanager.service;
 import com.iiht.projectmanager.dto.UserDto;
 import com.iiht.projectmanager.entity.User;
 import com.iiht.projectmanager.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -3,7 +3,6 @@ package com.iiht.projectmanager.controller;
 import com.iiht.projectmanager.dto.ParentTaskDto;
 import com.iiht.projectmanager.entity.ParentTask;
 import com.iiht.projectmanager.service.ParentTaskService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

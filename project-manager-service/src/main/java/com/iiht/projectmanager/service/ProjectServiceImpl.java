@@ -3,12 +3,10 @@ package com.iiht.projectmanager.service;
 import com.iiht.projectmanager.dto.ProjectDto;
 import com.iiht.projectmanager.entity.Project;
 import com.iiht.projectmanager.repository.ProjectRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImpl implements ProjectService{

@@ -3,7 +3,6 @@ package com.iiht.projectmanager.service;
 import com.iiht.projectmanager.dto.ParentTaskDto;
 import com.iiht.projectmanager.entity.ParentTask;
 import com.iiht.projectmanager.repository.ParentTaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

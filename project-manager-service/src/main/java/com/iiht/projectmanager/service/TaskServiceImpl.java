@@ -3,7 +3,6 @@ package com.iiht.projectmanager.service;
 import com.iiht.projectmanager.dto.TaskDto;
 import com.iiht.projectmanager.entity.Task;
 import com.iiht.projectmanager.repository.TaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
