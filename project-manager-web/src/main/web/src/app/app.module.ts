@@ -10,6 +10,7 @@ import {AddtaskComponent} from './task/addtask/addtask.component';
 import {ViewtaskComponent} from './task/viewtask/viewtask.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from "@angular/common/http";
+import { DatePipe } from '@angular/common';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { UsersearchPipe } from './util/usersearch.pipe';
 import { UsersortPipe } from './util/usersort.pipe';
@@ -36,7 +37,7 @@ import { ProjectsortPipe } from './util/projectsort.pipe';
     HttpClientModule,
     NgbModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule {

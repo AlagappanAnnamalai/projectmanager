@@ -8,22 +8,26 @@
     <tr>
       <th>
         <div id="addProjectDiv" class="nav-item" >
-          <a class="nav-link" routerLinkActive="active" routerLink="/project">Add Project</a>
+          <a class="nav-link" routerLinkActive="active" [ngClass]="{
+            'active' : clickedTab === 'project'}" (click)="changeActiveTab('project')" routerLink="/project">Add Project</a>
         </div>
       </th>
       <th>
         <div id="addTaskDiv" class="nav-item" >
-          <a class="nav-link" routerLinkActive="active" routerLink="/addtask">Add Task</a>
+          <a class="nav-link" routerLinkActive="active" [ngClass]="{
+            'active' : clickedTab === 'addTask'}" (click)="changeActiveTab('addTask')" routerLink="/addtask">Add Task</a>
         </div>
       </th>
       <th>
         <div id="addUserDiv" class="nav-item" >
-          <a class="nav-link" routerLinkActive="active" routerLink="/user">Add User</a>
+          <a class="nav-link" routerLinkActive="active" [ngClass]="{
+            'active' : clickedTab === 'user'}" (click)="changeActiveTab('user')" routerLink="/user">Add User</a>
         </div>
       </th>
       <th>
         <div id="viewTaskDiv" class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/viewtask">View Task</a>
+          <a class="nav-link" routerLinkActive="active" [ngClass]="{
+            'active' : clickedTab === 'viewTask'}" (click)="changeActiveTab('viewTask')" routerLink="/viewtask">View Task</a>
         </div>
       </th>
     </tr>

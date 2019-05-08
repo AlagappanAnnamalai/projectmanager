@@ -8,7 +8,7 @@ import {NavigationEnd, Router} from "@angular/router";
 })
 export class AppComponent {
   title = 'Project Manager';
-
+  clickedTab : string = 'viewTask';
   constructor(private router: Router) {
     // override the route reuse strategy
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
@@ -21,5 +21,10 @@ export class AppComponent {
       }
     });
 
+  }
+
+  changeActiveTab(tab)
+  {
+      this.clickedTab = tab;
   }
 }

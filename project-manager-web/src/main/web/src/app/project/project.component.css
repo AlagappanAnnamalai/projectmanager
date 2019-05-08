@@ -18,6 +18,14 @@ input{
   width: 500px !important;
 
 }
+
+.datepicker{
+  color:black;
+  box-sizing: border-box;
+  border: 2px solid black ;
+  border-radius: 4px;
+  width: 250px !important;
+}
 #viewproject tr:hover {background-color: #ddd;}
 
 #viewproject th {
@@ -78,7 +86,7 @@ small
 .sortButton
 {
   float: left;
-  margin: 25px;
+  margin: 25px 10px 25px 10px;
   width : 125px;
   font-weight: bold;
   font-style: italic;
@@ -87,3 +95,41 @@ small
 {
   padding-left: 25px;
 }
+
+#selectManager{
+  margin-left: 100px;
+  border-radius: 10px;
+  background-color:grey;
+  border-color: black;
+  position: center;
+  top: 90%;
+}
+#cancelButton{
+  margin-left: 50px;
+  border-radius: 10px;
+  background-color:grey;
+  border-color: black;
+  position: center;
+  top: 90%;
+  text-anchor: none;
+}
+
+.modelLabel{
+  color: black;
+  float: left;
+  margin: 10px;
+  width : 75px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.selectInput
+{
+  color:black;
+  box-sizing: border-box;
+  border: 2px solid black ;
+  border-radius: 4px;
+  width: 250px !important;
+}
+
+
