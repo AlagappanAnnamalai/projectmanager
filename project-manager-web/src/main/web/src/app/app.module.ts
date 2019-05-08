@@ -13,6 +13,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { UsersearchPipe } from './util/usersearch.pipe';
 import { UsersortPipe } from './util/usersort.pipe';
+import { ProjectsearchPipe } from './util/projectsearch.pipe';
+import { ProjectsortPipe } from './util/projectsort.pipe';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { UsersortPipe } from './util/usersort.pipe';
     AddtaskComponent,
     ViewtaskComponent,
     UsersearchPipe,
-    UsersortPipe
+    UsersortPipe,
+    ProjectsearchPipe,
+    ProjectsortPipe
   ],
   imports: [
     BrowserModule,
