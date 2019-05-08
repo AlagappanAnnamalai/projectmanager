@@ -104,6 +104,44 @@ public class TaskControllerTest extends TestCase{
     }
 
     @Test
+    public void testAddTaskWithTaskId() {
+
+        User user = new User();
+        user.setActive(true);
+        user.setLastName("Annamalai");
+        user.setFirstName("Alagappan");
+        user.setEmployeeId(552845L);
+        /*Save the User & Get Id*/
+        User resultUser = userRepository.save(user);
+
+        ParentTask parentTask = new ParentTask();
+        parentTask.setParentTask("FSE S1 Certification JUnit");
+        ParentTask resultParentTask = parentTaskRepository.save(parentTask);
+
+        Project project = new Project();
+        project.setProject("FSE S1 Certification Project");
+        project.setStartDate(new Date());
+        project.setEndDate(new Date());
+        project.setPriority(25);
+        project.setUser(resultUser);
+        Project resultProject = projectRepository.save(project);
+
+        TaskDto taskDto = new TaskDto();
+        taskDto.setTaskId(50L);
+        taskDto.setTask("Design Database");
+        taskDto.setStatus(true);
+        taskDto.setPriority(22);
+        taskDto.setStartDate(new Date());
+        taskDto.setEndDate(new Date());
+        taskDto.setParentId(resultParentTask.getParentId());
+        taskDto.setUserId(resultUser.getUserId());
+        taskDto.setProjectId(resultProject.getProjectId());
+
+        ResponseEntity<String> response = testRestTemplate.postForEntity(baseUrl.concat("/task/add"), taskDto, String.class);
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.CREATED));
+    }
+
+    @Test
     public void testUpdateTask() {
 
         User user = new User();

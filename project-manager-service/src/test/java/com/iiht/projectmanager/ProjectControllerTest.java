@@ -88,6 +88,29 @@ public class ProjectControllerTest extends TestCase {
     }
 
     @Test
+    public void testAddProjectWithProjectId() {
+
+        User user = new User();
+        user.setActive(true);
+        user.setLastName("Annamalai");
+        user.setFirstName("Alagappan");
+        user.setEmployeeId(552845L);
+        /*Save the User & Get Id*/
+        User resultUser = userRepository.save(user);
+
+        ProjectDto projectDto = new ProjectDto();
+        projectDto.setProjectId(50L);
+        projectDto.setProject("FSE S1 Certification Project");
+        projectDto.setStartDate(new Date());
+        projectDto.setEndDate(new Date());
+        projectDto.setPriority(25);
+        projectDto.setManagerId(resultUser.getUserId());
+
+        ResponseEntity<String> response = testRestTemplate.postForEntity(baseUrl.concat("/project/add"), projectDto, String.class);
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.CREATED));
+    }
+
+    @Test
     public void testUpdateProject() {
 
         User user = new User();

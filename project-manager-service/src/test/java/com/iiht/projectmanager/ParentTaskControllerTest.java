@@ -69,6 +69,15 @@ public class ParentTaskControllerTest extends TestCase {
         assertThat(response.getStatusCode(), equalTo(HttpStatus.CREATED));
     }
 
+    @Test
+    public void testAddParentTaskWithParentTaskId() {
+        ParentTaskDto parentTaskDto = new ParentTaskDto();
+        parentTaskDto.setParentId(50L);
+        parentTaskDto.setParentTask("FSE S1 Certification JUnit");
+        ResponseEntity<String> response = testRestTemplate.postForEntity(baseUrl.concat("/parenttask/add"), parentTaskDto, String.class);
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.CREATED));
+    }
+
     @After
     public void tearDown() throws Exception {
         super.tearDown();

@@ -60,6 +60,18 @@ public class UserControllerTest extends TestCase{
     }
 
     @Test
+    public void testAddUserWithUserId() {
+        UserDto userDto = new UserDto();
+        userDto.setUserId(50L);
+        userDto.setActive(true);
+        userDto.setLastName("Annamalai");
+        userDto.setFirstName("Alagappan");
+        userDto.setEmployeeId(552845L);
+        ResponseEntity<String> response = testRestTemplate.postForEntity(baseUrl.concat("/user/add"), userDto, String.class);
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.CREATED));
+    }
+
+    @Test
     public void testUpdateUser() {
         User user = new User();
         user.setActive(true);
@@ -100,6 +112,8 @@ public class UserControllerTest extends TestCase{
         ResponseEntity<String> response = testRestTemplate.exchange(baseUrl.concat("/user/delete"), HttpMethod.POST, new HttpEntity<>(userDto), String.class);
         assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
     }
+
+
 
     @Test
     public void testGetAllUser() throws Exception {
