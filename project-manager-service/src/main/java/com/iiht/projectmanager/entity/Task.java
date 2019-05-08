@@ -15,9 +15,11 @@ public class Task {
 	private String task;
 
 	@Column(name = "startDate")
+	@Temporal(TemporalType.DATE)
 	private Date startDate;
 
 	@Column(name = "endDate")
+	@Temporal(TemporalType.DATE)
 	private Date endDate;
 
 	@Column(name = "priority")
