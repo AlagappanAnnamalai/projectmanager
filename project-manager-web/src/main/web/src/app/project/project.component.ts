@@ -119,7 +119,7 @@ export class ProjectComponent implements OnInit {
 
   }
 
-  openModel(content) {
+  openSubModel(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
     }, (reason) => {
       if (this.users.filter(user => user.userId == this.projectModel.managerId).length === 0) {
