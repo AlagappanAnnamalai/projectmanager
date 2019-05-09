@@ -4,7 +4,7 @@ import {Project} from "../../model/project";
 import {Task} from "../../model/task";
 import {ParentTask} from "../../model/parenttask";
 import {UserService} from "../../service/user.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {DatePipe} from "@angular/common";
 import {ProjectService} from "../../service/project.service";
@@ -31,13 +31,24 @@ export class AddtaskComponent implements OnInit {
   userErrorMessage: string;
   parentTaskErrorMessage: string;
   todayString: string;
+  isEdit: boolean = false;
+  tasks: Task[];
 
 
-  constructor(private router: Router, private userService: UserService, private projectService: ProjectService, private datePipe: DatePipe, private modalService: NgbModal, private taskService: TaskService, private parentTaskService: ParenttaskService) {
+  constructor(private route: ActivatedRoute, private router: Router, private userService: UserService, private projectService: ProjectService, private datePipe: DatePipe, private modalService: NgbModal, private taskService: TaskService, private parentTaskService: ParenttaskService) {
     this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd')
   }
 
   ngOnInit() {
+    const taskId = this.route.snapshot.paramMap.get('id');
+    if (!(taskId == null)) {
+      this.isEdit = true;
+      this.taskService.getAllTasks().subscribe(taskDtos => {
+        this.taskModel = taskDtos.filter(taskDto => taskDto.taskId == taskId)[0];
+        this.taskModel.startDateString =  this.datePipe.transform(this.taskModel.startDate, 'yyyy-MM-dd');
+        this.taskModel.endDateString = this.datePipe.transform(this.taskModel.endDate, 'yyyy-MM-dd');
+      });
+    }
     this.projectService.getAllProjects().subscribe(projectDtos => {
       this.projects = projectDtos.filter(project => !this.isProjectSuspended(project));
     });
@@ -57,17 +68,30 @@ export class AddtaskComponent implements OnInit {
 
   }
 
+  cancelEdit() {
+    this.router.navigate(['/viewtask'])
+  }
+
   parentTaskControl(event) {
     this.isParentTask = !!event.target.checked;
-    this.projectErrorMessage = undefined;
-    this.parentTaskErrorMessage = undefined;
-    this.userErrorMessage = undefined;
-    this.taskModel.projectId = undefined;
-    this.taskModel.project = undefined;
-    this.taskModel.userEmployeeId = undefined;
-    this.taskModel.userName = undefined;
-    this.taskModel.parentId = undefined;
-    this.taskModel.parentTask = undefined;
+    if (this.isParentTask) {
+      this.projectErrorMessage = undefined;
+      this.parentTaskErrorMessage = undefined;
+      this.userErrorMessage = undefined;
+      this.taskModel.projectId = undefined;
+      this.taskModel.project = undefined;
+      this.taskModel.userEmployeeId = undefined;
+      this.taskModel.userName = undefined;
+      this.taskModel.parentId = undefined;
+      this.taskModel.parentTask = undefined;
+      this.taskModel.startDateString = undefined;
+      this.taskModel.endDateString = undefined;
+    }
+    else {
+      this.taskModel.startDateString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+      this.taskModel.endDateString = this.datePipe.transform(new Date(new Date().getTime() + 86400000), 'yyyy-MM-dd');
+
+    }
   }
 
   onSubmit(taskData: Task) {
@@ -101,12 +125,21 @@ export class AddtaskComponent implements OnInit {
       this.taskModel.startDate = new Date(parseInt(startDateParts[0]), parseInt(startDateParts[1]) - 1, parseInt(startDateParts[2]));
       this.taskModel.endDate = new Date(parseInt(endDateParts[0]), parseInt(endDateParts[1]) - 1, parseInt(endDateParts[2]));
       this.taskModel.status = true;
-      this.taskService.addTask(this.taskModel)
-        .subscribe(
-          response => {
-            this.router.navigate(['/addtask']);
-          }
-        );
+      if (this.isEdit) {
+        this.taskService.updateTask(this.taskModel)
+          .subscribe(
+            response => {
+              this.router.navigate(['/viewtask']);
+            }
+          );
+      } else {
+        this.taskService.addTask(this.taskModel)
+          .subscribe(
+            response => {
+              this.router.navigate(['/addtask']);
+            }
+          );
+      }
     }
   }
 

@@ -5,7 +5,7 @@
       <label>Project</label>
       <input type="text" placeholder="Select Project" [disabled]="true" required class="form-control"
              value="{{taskModel.projectId}} - {{taskModel.project}}" autocomplete="off">
-      <button type="button" [disabled]="isParentTask" (click)="openProjectSubModel(contentproject)" style="margin-left: 25px" class="glyphicon glyphicon-check">Search</button>
+      <button type="button" [disabled]="isParentTask || isEdit" (click)="openProjectSubModel(contentproject)" style="margin-left: 25px" class="glyphicon glyphicon-check">Search</button>
       <small class="text-danger" [class.d-none]="!projectErrorMessage">{{projectErrorMessage}}</small>
     </div>
     <div class="form-group form-inline">
@@ -17,7 +17,7 @@
     </div>
     <div class="form-group form-inline">
       <input type="checkbox" class="form-check-input"
-             id="isParentTask" [checked]="isParentTask" style="margin-left: -75px" (change)="parentTaskControl($event)">
+             id="isParentTask" disabled="isEdit" [checked]="isParentTask" style="margin-left: -75px" (change)="parentTaskControl($event)">
       <label style="margin-left: -275px; width: 200px">Parent Task</label>
     </div>
     <div class="form-group form-inline">
@@ -37,10 +37,10 @@
     </div>
     <div class="form-group form-inline">
       <label>Start Date</label>
-      <input #startDateString="ngModel" [disabled]="isParentTask" min="{{todayString}}"  max="{{taskModel.endDateString}}" name="startDateString" [(ngModel)]="taskModel.startDateString" placeholder="Start Date"
+      <input #startDateString="ngModel" min="{{todayString}}"  max="{{taskModel.endDateString}}" name="startDateString" [(ngModel)]="taskModel.startDateString" placeholder="Start Date"
              [disabled]="isParentTask" class="form-control datepicker"    type="date" style="width:175px!important;" required/>
       <label>End Date</label>
-      <input #endDateString="ngModel"  [disabled]="isParentTask" min="{{taskModel.startDateString}}"  name="endDateString" [(ngModel)]="taskModel.endDateString" placeholder="End Date"
+      <input #endDateString="ngModel"   min="{{taskModel.startDateString}}"  name="endDateString" [(ngModel)]="taskModel.endDateString" placeholder="End Date"
              [disabled]="isParentTask" class="form-control datepicker" type="date" style="width:175px!important;" required/>
     </div>
     <div class="form-group form-inline">
@@ -50,8 +50,10 @@
       <button type="button" [disabled]="isParentTask" (click)="openUserSubModel(contentuser)" style="margin-left: 25px" class="glyphicon glyphicon-check">Search</button>
       <small class="text-danger" [class.d-none]="!userErrorMessage">{{userErrorMessage}}</small>
     </div>
-    <button id="submit" class="btn btn-primary"  [disabled]="userForm.form.invalid" type="submit">Add Task</button>
-    <button id="reset" class="btn btn-secondary"  type="reset">Reset</button>
+    <button id="submit" class="btn btn-primary" [hidden]="isEdit" [disabled]="userForm.form.invalid" type="submit">Add Task</button>
+    <button id="reset" class="btn btn-secondary" [hidden]="isEdit" type="reset">Reset</button>
+    <button id="update" class="btn btn-primary" [hidden]="!isEdit" [disabled]="userForm.form.invalid" type="submit">Update</button>
+    <button id="cancel" class="btn btn-secondary" [hidden]="!isEdit" (click)="cancelEdit()">Cancel</button>
  </form>
 </div>
 
@@ -65,7 +67,7 @@
     </div>
     <div class="modal-body">
       <div class="form-group form-inline">
-        <label class="modelLabel">Manager</label>
+        <label class="modelLabel">User</label>
         <select class="form-control selectInput" id="selectedUserId" name="selectedUserId" [(ngModel)]="selectedUserId">
           <option *ngFor="let user of users" value="{{user.userId}}">{{user.employeeId}} - {{user.firstName}}</option>
         </select>

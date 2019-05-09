@@ -62,6 +62,14 @@ small
   font-style: italic;
 }
 
+h4 {
+  color:black;
+  text-align: center;
+  border: double black;
+  width: 100%;
+  background: grey;
+}
+
 small
 {
   padding-left: 25px;

@@ -10,6 +10,7 @@ const routes: Routes = [
   {path: 'addtask', component: AddtaskComponent},
   {path: 'user', component: UserComponent},
   {path: 'project', component: ProjectComponent},
+  {path: 'updatetask/:id', component: AddtaskComponent},
   {path: '', redirectTo: 'viewtask', pathMatch: 'full'}
 
 ];

@@ -29,7 +29,7 @@ export class TaskService {
     return this.http.put(`${this.baseUrl}/update/`, task);
   }
 
-  endProject(task: Task): Observable<any> {
+  endTask(task: Task): Observable<any> {
     return this.http.put(`${this.baseUrl}/end`, task);
   }
 }

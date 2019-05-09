@@ -16,6 +16,9 @@ import { UsersearchPipe } from './util/usersearch.pipe';
 import { UsersortPipe } from './util/usersort.pipe';
 import { ProjectsearchPipe } from './util/projectsearch.pipe';
 import { ProjectsortPipe } from './util/projectsort.pipe';
+import { ParenttasksearchPipe } from './util/parenttasksearch.pipe';
+import { ProjecttasksearchPipe } from './util/projecttasksearch.pipe';
+import { TasksortPipe } from './util/tasksort.pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { ProjectsortPipe } from './util/projectsort.pipe';
     UsersearchPipe,
     UsersortPipe,
     ProjectsearchPipe,
-    ProjectsortPipe
+    ProjectsortPipe,
+    ParenttasksearchPipe,
+    ProjecttasksearchPipe,
+    TasksortPipe
   ],
   imports: [
     BrowserModule,
