@@ -1,7 +1,7 @@
 **Project Manager Application - IIHT Certification Use Case**
 
 _Prerequisite_
-1. MySQL Server should be up and running in port 3636
+1. MySQL Server should be up and running in port 3636 and should have database named projectmanager
 2. Should have JRE installed
 3. [Optional]: docker setup if running in docker container
 
