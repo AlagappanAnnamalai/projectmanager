@@ -26,8 +26,11 @@ export class ProjectComponent implements OnInit {
   sortIndicator: boolean = false;
   isEdit: boolean = false;
   isDateEnabled: boolean = true;
+  todayString: string;
+  errorMessage: string;
 
   constructor(private router: Router, private userService: UserService, private projectService: ProjectService, private datePipe: DatePipe, private modalService: NgbModal) {
+    this.todayString = this.datePipe.transform(new Date(), 'yyyy-MM-dd')
   }
 
   ngOnInit() {
@@ -36,18 +39,13 @@ export class ProjectComponent implements OnInit {
     });
     this.userService.getAllUsers().subscribe(userDtos => {
       this.users = userDtos.filter(user => user.active);
-    })
+    });
+    this.projectModel.startDateString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    this.projectModel.endDateString = this.datePipe.transform(new Date(new Date().getTime() + 86400000), 'yyyy-MM-dd');
   }
 
-  dateSetter(event) {
-    this.projectModel.startDate = <any> this.datePipe.transform(new Date(), 'dd-mm-yyyy');
-    this.projectModel.endDate = <any> this.datePipe.transform(new Date(new Date().getDate() + 1), 'dd-mm-yyyy');
-
-    if (event.target.checked) {
-      this.isDateEnabled = true;
-    } else {
-      this.isDateEnabled = false;
-    }
+  dateSetterControl(event) {
+    this.isDateEnabled = !!event.target.checked;
   }
 
   sortProject(columnName) {
@@ -63,11 +61,20 @@ export class ProjectComponent implements OnInit {
   onSubmit(projectData: Project) {
     this.projectModel = projectData;
 
+    if (!this.projectModel.managerId) {
+      this.errorMessage = "Manager is required";
+      return false;
+    }
+    const startDateParts = this.projectModel.startDateString.split('-');
+    const endDateParts = this.projectModel.endDateString.split('-');
+
+    this.projectModel.startDate = new Date(parseInt(startDateParts[0]), parseInt(startDateParts[1]) - 1, parseInt(startDateParts[2]));
+    this.projectModel.endDate = new Date(parseInt(endDateParts[0]), parseInt(endDateParts[1]) - 1, parseInt(endDateParts[2]));
+
     if (this.isEdit) {
       this.projectService.updateProject(this.projectModel)
         .subscribe(
           response => {
-            /*Reset User Model*/
             this.router.navigate(['/project']);
           }
         );
@@ -88,7 +95,6 @@ export class ProjectComponent implements OnInit {
     this.projectService.suspendProject(this.opProject)
       .subscribe(
         response => {
-          /*Reset User Model*/
           this.router.navigate(['/project']);
         }
       );
@@ -97,6 +103,8 @@ export class ProjectComponent implements OnInit {
   editProjectPopulate(projectData) {
     this.projectModel = Object.assign({}, projectData);
     this.isEdit = true;
+    this.projectModel.startDateString = this.datePipe.transform(this.projectModel.startDate, 'yyyy-MM-dd');
+    this.projectModel.endDateString = this.datePipe.transform(this.projectModel.endDate, 'yyyy-MM-dd');
     window.scrollTo(0, 0);
   }
 
@@ -107,7 +115,7 @@ export class ProjectComponent implements OnInit {
 
   projectSuspended(formProject) {
     this.opProject = formProject;
-    return new Date(this.opProject.endDate).toISOString().split('T')[0].localeCompare(new Date(new Date().getTime() + 330 * 60000).toISOString().split('T')[0]) <= 0 ? true : false;
+    return new Date(this.opProject.endDate).toISOString().split('T')[0].localeCompare(new Date(new Date().getTime() + 330 * 60000).toISOString().split('T')[0]) <= 0;
 
   }
 
@@ -129,12 +137,12 @@ export class ProjectComponent implements OnInit {
         this.projectModel.managerName = undefined;
         this.projectModel.managerEmployeeId = undefined;
       }
-    }
-    else {
+    } else {
       this.user = this.users.filter(user => user.userId == this.selectedManagerId)[0];
       this.projectModel.managerEmployeeId = this.user.employeeId;
       this.projectModel.managerId = this.user.userId;
       this.projectModel.managerName = this.user.firstName + ',' + this.user.lastName;
+      this.errorMessage = undefined;
     }
     this.modalService.dismissAll();
   }

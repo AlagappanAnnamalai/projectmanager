@@ -10,12 +10,12 @@
     </div>
     <div class="form-group form-inline">
         <input type="checkbox" class="form-check-input" style="margin-left: -300px;"
-               (ng-model)="isDateEnabled" id="isDateEnabled" [checked]="isDateEnabled" (change)="dateSetter($event)">
+               id="isDateEnabled" [checked]="isDateEnabled" (change)="dateSetterControl($event)">
         <label style="margin-left: -250px; width: 200px">Set Start and End Date</label>
-      <input #startDate="ngModel" name="startDate" [(ngModel)]="projectModel.startDate" placeholder="Start Date"
-             [disabled]=!isDateEnabled class="form-control datepicker"   type="date" style="width:200px!important; margin-left: -25px"/>
-      <input #endDate="ngModel"  name="endDate" [(ngModel)]="projectModel.endDate" placeholder="End Date"
-             [disabled]=!isDateEnabled class="form-control datepicker" type="date" style="width:200px!important; margin-left: 25px"/>
+      <input #startDateString="ngModel" min="{{todayString}}"  max="{{projectModel.endDateString}}" name="startDateString" [(ngModel)]="projectModel.startDateString" placeholder="Start Date"
+             [disabled]=!isDateEnabled class="form-control datepicker"    type="date" style="width:200px!important; margin-left: -25px" required/>
+      <input #endDateString="ngModel"   min="{{projectModel.startDateString}}"  name="endDateString" [(ngModel)]="projectModel.endDateString" placeholder="End Date"
+             [disabled]=!isDateEnabled class="form-control datepicker" type="date" style="width:200px!important; margin-left: 25px" required/>
     </div>
     <div class="form-group form-inline">
       <label>Priority</label>
@@ -30,6 +30,7 @@
       <input type="text" placeholder="Select Manager" [disabled]="true" required class="form-control"
              value="{{projectModel.managerEmployeeId}} - {{projectModel.managerName}}" autocomplete="off">
       <button type="button" (click)="openUpdateModel(content)" style="margin-left: 25px" class="glyphicon glyphicon-check">Search</button>
+      <small class="text-danger" [class.d-none]="!errorMessage">{{errorMessage}}</small>
     </div>
     <!-- To Add Remaining Fields -->
     <button id="submit" class="btn btn-primary" [hidden]="isEdit" [disabled]="userForm.form.invalid" type="submit">Add</button>
@@ -78,8 +79,8 @@
       <td>{{ indProject.project }}</td>
       <td>{{ indProject.noOfTasks }}</td>
       <td>{{ indProject.noOfCompletedTasks }}</td>
-      <td>{{ indProject.startDate | date : 'dd-MM-yyyy' }}</td>
-      <td>{{ indProject.endDate | date : 'dd-MM-yyyy' }}</td>
+      <td>{{ indProject.startDate | date : 'MM/dd/yyyy' }}</td>
+      <td>{{ indProject.endDate | date : 'MM/dd/yyyy' }}</td>
       <td>{{ indProject.priority }}</td>
       <td>
         <button type="button" class="glyphicon glyphicon-check" [disabled]="projectSuspended(indProject)" (click)="editProjectPopulate(indProject)">Edit</button>

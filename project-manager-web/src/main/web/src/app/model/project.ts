@@ -9,4 +9,6 @@ export class Project {
   managerEmployeeId: number;
   noOfTasks: number;
   noOfCompletedTasks: number;
+  startDateString: string;
+  endDateString: string;
 }
