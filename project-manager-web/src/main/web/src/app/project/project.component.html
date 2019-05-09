@@ -29,10 +29,9 @@
       <label>Manager</label>
       <input type="text" placeholder="Select Manager" [disabled]="true" required class="form-control"
              value="{{projectModel.managerEmployeeId}} - {{projectModel.managerName}}" autocomplete="off">
-      <button type="button" (click)="openUpdateModel(content)" style="margin-left: 25px" class="glyphicon glyphicon-check">Search</button>
+      <button type="button" (click)="openSubModel(content)" style="margin-left: 25px" class="glyphicon glyphicon-check">Search</button>
       <small class="text-danger" [class.d-none]="!errorMessage">{{errorMessage}}</small>
     </div>
-    <!-- To Add Remaining Fields -->
     <button id="submit" class="btn btn-primary" [hidden]="isEdit" [disabled]="userForm.form.invalid" type="submit">Add</button>
     <button id="reset" class="btn btn-secondary" [hidden]="isEdit" type="reset">Reset</button>
     <button id="update" class="btn btn-primary" [hidden]="!isEdit" [disabled]="userForm.form.invalid" type="submit">Update</button>

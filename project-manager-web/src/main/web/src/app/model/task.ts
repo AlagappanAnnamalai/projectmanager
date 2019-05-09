@@ -12,4 +12,6 @@ export class Task {
   userId: number;
   userName: string;
   userEmployeeId: number;
+  startDateString : string;
+  endDateString : string;
 }

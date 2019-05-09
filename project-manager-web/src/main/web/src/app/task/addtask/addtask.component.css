@@ -85,6 +85,15 @@ small
   text-anchor: none;
 }
 
+#selectParentTask,#selectProjectTask,#selectUser{
+  margin-left: 100px;
+  border-radius: 10px;
+  background-color:grey;
+  border-color: black;
+  position: center;
+  top: 90%;
+}
+
 .modelLabel{
   color: black;
   float: left;

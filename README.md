@@ -37,4 +37,4 @@ _Other Details_
 3. Jenkins will be running in `http://localhost:8080`
 4. JMeter Load Run can be run using command `jmeter -n -t [jmx file] -l [results file] -e -o [Path to web report folder]`
 5. XAMPP MySQL Server is used for development purpose
-
+6. npm goal is added to maven hence UI will be packaged in to same application as that of service
